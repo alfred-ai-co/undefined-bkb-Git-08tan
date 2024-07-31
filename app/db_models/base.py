@@ -62,3 +62,15 @@ class KanbanStatus(Base):
     kanban_board = relationship('KanbanBoard', back_populates='statuses')
     tickets = relationship('Ticket', back_populates='kanban_status')
 
+# Status Update Feature
+    # SQLAlchemy definitions 
+    # Stores the "history" of changes to statuses, projects, and tickets
+    class StatusUpdate(Base):
+        __tablename__ = "status_updates"
+        
+        id = Column(Integer, primary_key=True, autoincrement=True)
+        ticket_id = Column(Integer, ForeignKey("tickets.id"), nullable=False)
+        status = Column(String(255), nullable=False)
+        created_at = Column(DateTime, default=datetime.datetime.utcnow)
+        
+        ticket = relationship("Ticket", back_populates="status_updates")
